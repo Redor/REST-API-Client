@@ -39,7 +39,7 @@
     <properties>
         <maven.surefire.report.plugin.version>2.22.2</maven.surefire.report.plugin.version>
         <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
-        <jersey.version>3.1.5</jersey.version>
+        <jersey.version>3.1.8</jersey.version>
         <xml.version>4.0.0</xml.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -56,6 +56,16 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.incubator</groupId>
+          <artifactId>jersey-injectless-client</artifactId>
+          <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.media</groupId>
+          <artifactId>jersey-media-jaxb</artifactId>
+          <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
