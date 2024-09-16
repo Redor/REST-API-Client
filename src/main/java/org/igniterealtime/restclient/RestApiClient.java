@@ -26,7 +26,7 @@ import org.igniterealtime.restclient.enums.SupportedMediaType;
 /**
  * The Class RestApiClient.
  */
-public class RestApiClient {
+public class RestApiClient implements AutoCloseable {
 
 	/** The rest client. */
 	private RestClient restClient;
@@ -765,5 +765,11 @@ public class RestApiClient {
 		}
 		return url;
 	}
+
+  @Override
+  public void close()
+  {
+    this.restClient.close();
+  }
 
 }

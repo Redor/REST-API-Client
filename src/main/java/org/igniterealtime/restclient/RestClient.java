@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class RestClient.
  */
-public final class RestClient {
+public final class RestClient implements AutoCloseable {
 
     /**
      * The Constant LOG.
@@ -83,6 +83,8 @@ public final class RestClient {
      * The media type.
      */
     private SupportedMediaType mediaType;
+
+    private Client client;
 
     /**
      * Gets the.
@@ -237,7 +239,7 @@ public final class RestClient {
         try {
             URI u = new URI(this.baseURI + "/plugins/restapi/v1/" + restPath);
             LOG.debug("Connecting to:" + u);
-            Client client = createRestClient();
+            Client client = getOrCreateRestClient();
 
             webTarget = client.target(u);
             if (queryParams != null && !queryParams.isEmpty()) {
@@ -276,7 +278,10 @@ public final class RestClient {
      * @throws KeyManagementException the key management exception
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
-    private Client createRestClient() throws KeyManagementException, NoSuchAlgorithmException {
+    private Client getOrCreateRestClient() throws KeyManagementException, NoSuchAlgorithmException {
+        if(this.client != null)
+          return this.client;
+
         ClientConfig clientConfig = new ClientConfig();
         // Set connection timeout
         if (this.connectionTimeout != 0) {
@@ -295,6 +300,8 @@ public final class RestClient {
         } else {
             client = ClientBuilder.newClient(clientConfig);
         }
+
+        this.client = client;
 
         return client;
     }
@@ -556,5 +563,12 @@ public final class RestClient {
      */
     public void setMediaType(SupportedMediaType mediaType) {
         this.mediaType = mediaType;
+    }
+
+    @Override
+    public void close()
+    {
+      if(this.client != null)
+        this.client.close();
     }
 }
